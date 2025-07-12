@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Blender Control Web Interface</title>
+    <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/babel@7.24.7/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      const { useState, useEffect } = React;
+
+      const App = () => {
+        const [prompt, setPrompt] = useState("");
+        const [theme, setTheme] = useState("futuristic");
+        const [preview, setPreview] = useState("");
+        const [templates, setTemplates] = useState([]);
+        const [loading, setLoading] = useState(false);
+
+        useEffect(() => {
+          fetch("http://localhost:8000/templates")
+            .then((res) => res.json())
+            .then((data) => setTemplates(data.templates))
+            .catch((err) => console.error("Error fetching templates:", err));
+        }, []);
+
+        const handleSubmit = async () => {
+          setLoading(true);
+          try {
+            const res = await fetch("http://localhost:8000/process", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ text: prompt, theme }),
+            });
+            const data = await res.json();
+            if (data.preview) {
+              setPreview(`data:image/png;base64,${data.preview}`);
+            }
+          } catch (err) {
+            console.error("Error processing prompt:", err);
+          }
+          setLoading(false);
+        };
+
+        return (
+          <div className="flex h-screen">
+            <div className="w-1/2 p-4 bg-gray-100">
+              <h1 className="text-2xl font-bold mb-4">Blender Control</h1>
+              <textarea
+                className="w-full p-2 border rounded"
+                value={prompt}
+                onChange={(e) => setPrompt(e.target.value)}
+                placeholder="Enter prompt (e.g., Create a red sphere)"
+              />
+              <select
+                className="w-full p-2 border rounded mt-2"
+                value={theme}
+                onChange={(e) => setTheme(e.target.value)}
+              >
+                <option value="futuristic">Futuristic</option>
+                <option value="modern">Modern</option>
+              </select>
+              <button
+                className="mt-2 p-2 bg-blue-500 text-white rounded"
+                onClick={handleSubmit}
+                disabled={loading}
+              >
+                {loading ? "Processing..." : "Submit"}
+              </button>
+              <div className="mt-4">
+                <h2 className="text-lg font-semibold">Templates</h2>
+                <ul>
+                  {templates.map((t) => (
+                    <li key={t}>{t}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+            <div className="w-1/2 p-4 bg-gray-200">
+              <h2 className="text-lg font-semibold">Preview</h2>
+              {preview ? (
+                <img
+                  src={preview}
+                  alt="Preview"
+                  className="max-w-full h-auto"
+                />
+              ) : (
+                <p>No preview available</p>
+              )}
+            </div>
+          </div>
+        );
+      };
+
+      ReactDOM.render(<App />, document.getElementById("root"));
+    </script>
+  </body>
+</html>

@@ -1,0 +1,42 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./templates:/app/templates
+      - ./scene_context.db:/app/scene_context.db
+      - ./themes.json:/app/themes.json
+      - ./.env:/app/.env
+      - ./blender_addon.py:/app/blender_addon.py
+    ports:
+      - "8000:8000"
+    networks:
+      - blender-network
+    environment:
+      - PYTHONUNBUFFERED=1
+    deploy:
+      resources:
+        limits:
+          memory: 8g
+  ollama:
+    image: ollama/ollama:latest
+    volumes:
+      - ollama:/root/.ollama
+    ports:
+      - "11434:11434"
+    networks:
+      - blender-network
+    environment:
+      - OLLAMA_HOST=0.0.0.0
+      - OLLAMA_ORIGINS=*
+    deploy:
+      resources:
+        limits:
+          memory: 6g
+      replicas: 1
+volumes:
+  ollama:
+networks:
+  blender-network:
+    driver: bridge
