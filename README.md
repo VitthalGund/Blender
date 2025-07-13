@@ -1,4 +1,7 @@
 # BlenderGenix - The Future of 3D Creation 🎨🚀🌟
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/0a16f2e8-4cbe-4179-940e-72a647c9f63d" alt="BlenderGenix Logo" height="150"/>
+</p>
 
 **BlenderGenix** is a groundbreaking AI-powered platform that redefines 3D design. Seamlessly integrated with **Blender 3.6.0**, it empowers users—professionals, students, and hobbyists alike—to create stunning 3D scenes using **natural language prompts**, **images**, **audio**, and an intuitive **canvas-based drawing interface**.
 
