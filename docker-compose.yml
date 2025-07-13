@@ -5,7 +5,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./templates:/app/templates
-      - ./scene_context.db:/app/scene_context.db
+      - ./scene_context.db:/app/db/scene_context.db
       - ./themes.json:/app/themes.json
       - ./.env:/app/.env
       - ./blender_addon.py:/app/blender_addon.py

@@ -16,5 +16,5 @@ COPY backend.py .
 COPY themes.json .
 COPY .env .
 COPY blender_addon.py .
-RUN mkdir -p /app/templates && chmod -R 777 /app
-CMD ["uvicorn", "backend:app", "--host", "0.0.0.0", "--port", "8000"]
+RUN mkdir -p /app/templates /app/db && chmod -R 777 /app /app/db
+CMD ["sh", "-c", "chmod 666 /app/db/scene_context.db && uvicorn backend:app --host 0.0.0.0 --port 8000"]
