@@ -100,6 +100,13 @@ BlenderGenix emerged from the desire to break down the barriers of 3D modeling. 
 
 ---
 
+
+## 📘 Technical Details
+
+Want to understand the architecture and AI pipelines? Check out [TECHNICAL\_DETAILS.md](TECHNICAL_DETAILS.md).
+
+---
+
 ## 📋 Prerequisites
 
 ### OS
@@ -309,10 +316,5 @@ This project is licensed under the **MIT License**. See [LICENSE](LICENSE) for d
 
 ---
 
-## 📘 Technical Details
-
-Want to understand the architecture and AI pipelines? Check out [TECHNICAL\_DETAILS.md](TECHNICAL_DETAILS.md).
-
----
 
 BlenderGenix — Built for Creativity. Powered by AI.
